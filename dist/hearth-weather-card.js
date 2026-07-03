@@ -156,7 +156,7 @@ class HearthWeatherCard extends HTMLElement {
         <svg class="curve" width="100%" height="${H}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
           <defs>
             <linearGradient id="hwfade" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="${accent}47"/>
+              <stop offset="0%" stop-color="${accent}24"/>
               <stop offset="100%" stop-color="${accent}00"/>
             </linearGradient>
           </defs>
