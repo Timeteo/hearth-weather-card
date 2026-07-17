@@ -4,7 +4,7 @@
  * No dependencies, no icons, no build step.
  */
 
-const VERSION = "0.1.0";
+const VERSION = "0.2.0";
 
 class HearthWeatherCard extends HTMLElement {
   constructor() {
@@ -114,6 +114,9 @@ class HearthWeatherCard extends HTMLElement {
       ? Number(this._hass.states[this._config.temperature_sensor].state)
       : attrs.temperature;
     const cond = this._condLabel(stateObj.state);
+    const humidity = this._config.humidity_sensor && this._hass.states[this._config.humidity_sensor]
+      ? Number(this._hass.states[this._config.humidity_sensor].state)
+      : attrs.humidity;
 
     // ---- today's H/L from daily forecast
     const daily = this._daily || [];
@@ -203,6 +206,9 @@ class HearthWeatherCard extends HTMLElement {
         .temp { font-size:96px; font-weight:300; letter-spacing:-3px; line-height:1; }
         .cond { font-size:25px; color:rgba(255,255,255,0.45); }
         .cond b { color:rgba(255,255,255,0.97); font-weight:500; }
+        .sub { font-size:22px; color:rgba(255,255,255,0.55); letter-spacing:1px;
+          margin-top:8px; text-transform:uppercase; }
+        .sub b { color:rgba(255,255,255,0.97); font-weight:500; }
         .curve { display:block; margin:30px 0 4px; overflow:visible; }
         .hours { display:flex; justify-content:space-between; font-size:15px;
           color:rgba(255,255,255,0.35); letter-spacing:1px; padding:0 2px; }
@@ -219,7 +225,10 @@ class HearthWeatherCard extends HTMLElement {
       </style>
       <div class="now">
         <div class="temp">${curTemp != null ? Math.round(curTemp) : "—"}°</div>
-        <div class="cond"><b>${cond}</b>${hl ? ` · ${hl}` : ""}</div>
+        <div>
+          <div class="cond"><b>${cond}</b>${hl ? ` · ${hl}` : ""}</div>
+          ${humidity != null && !Number.isNaN(humidity) ? `<div class="sub"><b>${Math.round(humidity)}%</b> humidity</div>` : ""}
+        </div>
       </div>
       ${curveSvg}${hourLabels}
       ${rows ? `<div class="rule"></div><table>${rows}</table>` : ""}
